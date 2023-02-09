@@ -89,8 +89,12 @@ async function fetchItineraire(
   latitudeEnd
 ) {
   const URL = `https://wxs.ign.fr/calcul/geoportail/itineraire/rest/1.0.0/route?resource=bdtopo-osrm&start=${latitudeStart}%2C${longitudeStart}&end=${latitudeEnd}%2C${longitudeEnd}&profile=pedestrian`;
-  let promise = fetch(URL);
-  let result = (await promise).json();
+  let response = await fetch(URL);
+  if (!response.ok) {
+    const message = "Erreur lors du chargement de l'itineraire";
+    alert(message);
+  }
+  let result = response.json();
   geoJsonData = await result;
 
   myLine = geoJsonData.geometry;
@@ -108,8 +112,10 @@ async function fetchAddress(x, y) {
   );
   let result = (await promises).json();
   let data = await result;
-  if (data.features !== null) {
+  if (data.features.length) {
     return data.features[0].properties.label;
+  } else {
+    alert('Attention: Aucune address trouvée pour ce point.');
   }
 
   return `No address found. x:${x} y:${y}`;
