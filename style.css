@@ -42,8 +42,9 @@ body {
     );
   color: white;
   margin: 16px 0px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.519) 0px 5px 10px;
   transition: all 0.2s ease;
+  letter-spacing: 1px;
 }
 #resetButton:hover {
   background-image: radial-gradient(142% 121% at 80% 7%, #003282 1%, #f000 60%),
