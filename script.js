@@ -96,11 +96,25 @@ async function fetchItineraire(
   }
   let result = response.json();
   geoJsonData = await result;
+  console.log(geoJsonData);
+  setRouteTrouvee(geoJsonData.duration, geoJsonData.distance);
 
   myLine = geoJsonData.geometry;
 
   ligneItineraire = L.geoJSON(myLine).addTo(map);
   map.fitBounds(ligneItineraire.getBounds());
+}
+
+function setRouteTrouvee(duration, distance) {
+  // display the duration and the distance of the current route
+  // duration in minutes and distance in meters
+
+  let pathFoundElement = document.getElementById('path-found');
+  pathFoundElement.innerText =
+    Math.round(duration) +
+    ' minutes - ' +
+    Math.round(distance / 10) / 100 +
+    ' km';
 }
 
 async function fetchAddress(x, y) {
@@ -147,6 +161,8 @@ function resetCoords() {
   itinairaireElement.innerText = '';
   let itinairaireElemen2 = document.getElementById('point-arrivee');
   itinairaireElemen2.innerText = '';
+  let pathFoundElement = document.getElementById('path-found');
+  pathFoundElement.innerText = '';
 }
 
 async function initGraph() {
