@@ -134,22 +134,27 @@ async function initGraph() {
   let allLongitudes = '';
   let allLatitudes = '';
   let distanceLine = geoJsonData.distance;
+  let dataForGraph = {
+    x: [],
+    y: [],
+    type: 'scatter',
+  };
   for (let i = 0; i < 15; i++) {
     let portionKm = (distanceLine / 15) * i;
     along = turf.along(myLine, portionKm / 1000);
-    console.log(along);
-    L.marker([
-      along.geometry.coordinates[1],
-      along.geometry.coordinates[0],
-    ]).addTo(map);
-  }
+    let latitude = along.geometry.coordinates[1];
+    let longitude = along.geometry.coordinates[0];
 
-  for (const line of myLine.coordinates) {
-    allLatitudes += line[0] + '|';
-    allLongitudes += line[1] + '|';
+    allLatitudes += latitude + (i === 14 ? '' : '|');
+    allLongitudes += longitude + (i === 14 ? '' : '|');
+    dataForGraph.x.push(portionKm);
   }
   allLongitudes.slice(0, -1); // -1...
   allLatitudes.slice(0, -1); // 43...
+  console.log('latitudes: ');
+  console.log(allLatitudes);
+  console.log('long: ');
+  console.log(allLongitudes);
 
   let url = `https://wxs.ign.fr/calcul/alti/rest/elevation.json?lon=${allLongitudes}&lat=${allLatitudes}&zonly=true&indent=true`;
   console.log(url);
@@ -157,11 +162,7 @@ async function initGraph() {
   let result = (await promise).json();
   let dataFetchElevation = await result;
   console.log(dataFetchElevation);
-  var trace1 = {
-    x: [1, 2, 3, 4],
-    y: [10, 15, 13, 17],
-    type: 'scatter',
-  };
+  dataForGraph.y = dataFetchElevation.elevations;
   var layout = {
     autosize: false,
     width: 800,
@@ -174,6 +175,6 @@ async function initGraph() {
       pad: 0,
     },
   };
-  var data = [trace1];
+  var data = [dataForGraph];
   Plotly.newPlot('graph', data, layout);
 }
