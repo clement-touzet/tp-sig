@@ -44,11 +44,12 @@ async function onMapClick(e) {
   let xCursor = e.latlng.lng; // x = longitude
   let yCursor = e.latlng.lat; // y = latitude
   if (pointNumber === 0) {
+    resetPoints();
     pointNumber = 1;
     await showCoordonateStart(yCursor, xCursor);
     markers.push(L.marker([yCursor, xCursor], { icon: greenIcon }).addTo(map));
   } else if (pointNumber === 1) {
-    pointNumber = 2;
+    pointNumber = 0;
     markers.push(L.marker([yCursor, xCursor], { icon: redIcon }).addTo(map));
     await showCoordonateEnd(yCursor, xCursor);
     await calculateItineraire();
@@ -114,12 +115,25 @@ async function fetchAddress(x, y) {
   return `No address found. x:${x} y:${y}`;
 }
 
-function resetCoords() {
+function resetPoints() {
+  resetMarkers();
+  resetLayers();
+}
+
+function resetMarkers() {
   for (let i = 0; i < markers.length; i++) {
     map.removeLayer(markers[i]);
   }
-  map.removeLayer(ligneItineraire);
+}
+function resetLayers() {
+  if (!!ligneItineraire) {
+    map.removeLayer(ligneItineraire);
+  }
+}
 
+function resetCoords() {
+  resetMarkers();
+  resetLayers();
   pointNumber = 0;
   markers = [];
   coordsMarkers = [];
