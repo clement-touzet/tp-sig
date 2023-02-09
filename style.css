@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  height: 70vh;
+}
+
+#itineraire {
+  height: 30vh;
+}
+
+.diviserpardeux {
+  display: flex;
+}
+.graph {
+  width: auto;
+  height: 100%;
+}
+.datas {
+  width: 30%;
+}

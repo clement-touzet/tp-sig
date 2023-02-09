@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tp8</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+</head>
+
+<body onload="onLoad()">
+    <div id="map"></div>
+    <div class="itineraire diviserpardeux" id="itineraire">
+        <div class="datas">
+            <p>Point de départ: <span id="point-depart"></span></p>
+            <p>Point d'arrivée: <span id="point-arrivee"></span></p>
+            <p>Route trouvée: <span id="path-found"></span></p>
+            <input type="button" id="resetButton" onclick="resetCoords()" value="reset" />
+        </div>
+        <div class="graph" id="graph">
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
