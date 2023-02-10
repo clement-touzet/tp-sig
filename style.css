@@ -66,3 +66,11 @@ body {
 p {
   margin: 2px;
 }
+
+.selectMapType {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.selectMapType:hover {
+  border-color: rgb(197, 197, 197);
+}

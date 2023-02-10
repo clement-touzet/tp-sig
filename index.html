@@ -21,8 +21,14 @@
 
 <body onload="onLoad()">
     <div id="map"></div>
+
     <div class="itineraire diviserpardeux" id="itineraire">
         <div class="datas">
+            <select id="selectMapType" class="selectMapType">
+                <option value="basicMap">Carte de base</option>
+                <option value="orthophotos">Orthophotos </option>
+            </select>
+            <div class="divider"></div>
             <p><b>Point de départ:</b> <span id="point-depart"></span></p>
             <div class="divider"></div>
             <p><b>Point d'arrivée:</b> <span id="point-arrivee"></span></p>

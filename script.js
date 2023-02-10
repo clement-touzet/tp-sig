@@ -1,12 +1,39 @@
 function onLoad() {}
 
+// MAP CONFIGURAITON
+let orthophotosLayer = L.tileLayer(
+  `https://wxs.ign.fr/decouverte/geoportail/wmts?service=WMTS&version=1.0.0&request=GetTile
+&tilematrixset=PM
+&tilematrix={z}
+&tilecol={x}
+&tilerow={y}
+&layer=ORTHOIMAGERY.ORTHOPHOTOS
+&format=image/jpeg
+&style=normal`,
+  {
+    id: 'orthophotos',
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }
+);
+let actualMapLayer = L.tileLayer(
+  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    id: 'basicMap',
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }
+);
 var map = L.map('map').setView([43.47687608781454, -1.4947795225488858], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(map);
+var baseMaps = {
+  OpenStreetMap: actualMapLayer,
+  orthophotos: orthophotosLayer,
+};
+map.addLayer(baseMaps.OpenStreetMap);
 
+// declaration des variables
 let pointNumber = 0;
 let markers = [];
 let coordsMarkers = [];
@@ -213,4 +240,23 @@ async function initGraph() {
   };
   var data = [dataForGraph];
   Plotly.newPlot('graph', data, layout);
+}
+
+document
+  .getElementById('selectMapType')
+  .addEventListener('change', (event) => onMapTypeChanged(event));
+
+function onMapTypeChanged(e) {
+  console.log(e);
+  removeAllLayers();
+  if (e.target.value === 'basicMap') {
+    map.addLayer(baseMaps.OpenStreetMap);
+  } else if (e.target.value === 'orthophotos') {
+    map.addLayer(baseMaps.orthophotos);
+  }
+}
+function removeAllLayers() {
+  for (const layer of Object.keys(baseMaps)) {
+    map.removeLayer(baseMaps[layer]);
+  }
 }
