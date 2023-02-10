@@ -264,9 +264,11 @@ function removeAllLayers() {
 }
 
 async function fetchLocalBars() {
-  let r = await fetch(
-    `https://overpass-api.de/api/interpreter?data=[out:json];node["amenity"="restaurant"](${longitudeStart},${latitudeStart},${longitudeEnd},${latitudeEnd});out;`
-  );
+  console.log(longitudeStart, latitudeStart, longitudeEnd, latitudeEnd);
+  let coords = `${longitudeStart},${latitudeStart},${longitudeEnd},${latitudeEnd}`;
+  let url = `https://overpass-api.de/api/interpreter?data=[out:json];node["amenity"="restaurant"](${coords});out;`;
+  console.log(url);
+  let r = await fetch(url);
   let data = await r.json();
   console.log(data);
   data.elements.forEach((element) => {
