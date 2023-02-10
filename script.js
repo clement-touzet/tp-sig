@@ -80,6 +80,7 @@ async function onMapClick(e) {
     pointNumber = 0;
     markers.push(L.marker([yCursor, xCursor], { icon: redIcon }).addTo(map));
     await calculateItineraire();
+    fetchLocalBars();
     initGraph();
   }
 }
@@ -260,4 +261,15 @@ function removeAllLayers() {
   for (const layer of Object.keys(baseMaps)) {
     map.removeLayer(baseMaps[layer]);
   }
+}
+
+async function fetchLocalBars() {
+  let r = await fetch(
+    `https://overpass-api.de/api/interpreter?data=[out:json];node["amenity"="restaurant"](${longitudeStart},${latitudeStart},${longitudeEnd},${latitudeEnd});out;`
+  );
+  let data = await r.json();
+  console.log(data);
+  data.elements.forEach((element) => {
+    markers.push(L.marker([element.lat, element.lon]).addTo(map));
+  });
 }
