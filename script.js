@@ -72,13 +72,13 @@ async function onMapClick(e) {
   let yCursor = e.latlng.lat; // y = latitude
   if (pointNumber === 0) {
     resetPoints();
-    pointNumber = 1;
     await showCoordonateStart(yCursor, xCursor);
+    pointNumber = 1;
     markers.push(L.marker([yCursor, xCursor], { icon: greenIcon }).addTo(map));
   } else if (pointNumber === 1) {
+    await showCoordonateEnd(yCursor, xCursor);
     pointNumber = 0;
     markers.push(L.marker([yCursor, xCursor], { icon: redIcon }).addTo(map));
-    await showCoordonateEnd(yCursor, xCursor);
     await calculateItineraire();
     initGraph();
   }
@@ -157,6 +157,7 @@ async function fetchAddress(x, y) {
     return data.features[0].properties.label;
   } else {
     alert('Attention: Aucune address trouvée pour ce point.');
+    throw new Error('Point invalide');
   }
 
   return `No address found. x:${x} y:${y}`;
@@ -239,7 +240,7 @@ async function initGraph() {
     },
   };
   var data = [dataForGraph];
-  Plotly.newPlot('graph', data, layout);
+  Plotly.newPlot('graph', data);
 }
 
 document
